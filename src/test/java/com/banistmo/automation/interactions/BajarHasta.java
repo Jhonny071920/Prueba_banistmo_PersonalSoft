@@ -30,7 +30,20 @@ public class BajarHasta implements Interaction {
             var raiz = document.scrollingElement || document.documentElement;
             raiz.scrollTop = destino;
             var visible = el.getBoundingClientRect();
-            return visible.top >= 0 && visible.bottom <= window.innerHeight && visible.height > 0;
+            var html = document.documentElement;
+            var body = document.body;
+            return JSON.stringify({
+              top: Math.round(visible.top),
+              bottom: Math.round(visible.bottom),
+              height: Math.round(visible.height),
+              innerHeight: window.innerHeight,
+              scrollY: Math.round(window.scrollY),
+              rootScroll: Math.round((document.scrollingElement || html).scrollTop),
+              htmlOverflow: getComputedStyle(html).overflow,
+              bodyOverflow: getComputedStyle(body).overflow,
+              bodyPosition: getComputedStyle(body).position,
+              dialogs: document.querySelectorAll('dialog[open]').length
+            });
             """;
 
     private final Target objetivo;
@@ -48,9 +61,7 @@ public class BajarHasta implements Interaction {
     public <T extends Actor> void performAs(T actor) {
         WebDriver driver = BrowseTheWeb.as(actor).getDriver();
         WebElement elemento = objetivo.resolveFor(actor).getElement();
-        Object quedoVisible = ((JavascriptExecutor) driver).executeScript(SCRIPT, elemento);
-        if (!Boolean.TRUE.equals(quedoVisible)) {
-            throw new IllegalStateException("El scroll no dejo el elemento dentro de la pantalla");
-        }
+        Object resultado = ((JavascriptExecutor) driver).executeScript(SCRIPT, elemento);
+        throw new IllegalStateException(String.valueOf(resultado));
     }
 }
