@@ -36,6 +36,7 @@ dependencies {
 
     testImplementation 'org.assertj:assertj-core:3.27.6'
     testImplementation 'ch.qos.logback:logback-classic:1.5.20'
+    testImplementation 'org.awaitility:awaitility:4.2.0'
 }
 
 tasks.withType(JavaCompile).configureEach {

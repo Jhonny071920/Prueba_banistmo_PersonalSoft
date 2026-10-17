@@ -10,4 +10,5 @@ Característica: Banca de personas de Banistmo
   Escenario: Consultar la página de personas
     Dado que Jonnathan abre la banca de personas
     Cuando la pagina carga se sigue la ruta hasta autocertificacion fiscal
+    Entonces Se descarga el pdf y se valida su descarga con el nombre 
 
